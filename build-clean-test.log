@@ -1,0 +1,45 @@
+
+> mizuki@9.0 prebuild
+> node scripts/sync-content.js || true
+
+已加载 .env 配置文件
+
+开始同步内容...
+
+内容分离功能已关闭（ENABLE_CONTENT_SYNC=false）
+提示：将使用本地内容，不会从远程仓库同步
+      若要启用内容分离，请在 .env 中设置：
+      ENABLE_CONTENT_SYNC=true
+      CONTENT_REPO_URL=<your-repo-url>
+
+
+> mizuki@9.0 build
+> node scripts/update-anime.mjs && astro build && node scripts/check-global-style-loading.mjs && pagefind --site dist && node scripts/check-font-loading.mjs
+
+Anime mode is "local", skipping data update.
+[2m22:01:17[22m [34m[content][39m Syncing content
+[2m22:01:18[22m [34m[content][39m Synced content
+[2m22:01:18[22m [34m[types][39m Generated [2m3.18s[22m
+[2m22:01:18[22m [34m[build][39m output: [34m"static"[39m
+[2m22:01:18[22m [34m[build][39m mode: [34m"static"[39m
+[2m22:01:18[22m [34m[build][39m directory: [34mE:\Code\blog\dist\[39m
+[2m22:01:18[22m [34m[build][39m Collecting build info...
+[2m22:01:18[22m [34m[build][39m [32m✓ Completed in 3.80s.[39m
+[2m22:01:53[22m [34m[build][39m Building static entrypoints...
+[33m[1m22:02:01[22m [WARN] [astro-icon][39m Failed to load icons from "src/icons": ENOENT: no such file or directory, scandir 'E:\Code\blog\src\icons\'
+[2m22:02:01[22m [34m[assets][39m Copying fonts (4 files)...
+[31m[1m22:02:04[22m [ERROR] [vite][39m [31m✗[39m Build failed in 10.31s
+[safe-delete][SAFE_DELETE_BULK_CONFIRM_REQUIRED] {"count":50,"threshold":50,"scope":"turn","targets":["E:\\Code\\blog\\dist\\.prerender\\\\.vite\\"],"targetCount":1}
+  [1mLocation:[22m
+    [4mE:\Code\blog\node_modules\astro\dist\core\build\vite-plugin-ssr-assets.js:89:23[24m
+  [1mStack trace:[22m
+[2m    at checkBulkDeleteGuard (D:\Program Files\WorkBuddy\resources\app.asar.unpacked\cli\vendor\shim\node-safe-delete-shim.cjs:239:19)
+    at tryRm (D:\Program Files\WorkBuddy\resources\app.asar.unpacked\cli\vendor\shim\node-safe-delete-shim.cjs:785:5)
+    at deleteViteFolder (file:///E:/Code/blog/node_modules/astro/dist/core/build/vite-plugin-ssr-assets.js:89:23)
+    at PluginContextImpl.handler (file:///E:/Code/blog/node_modules/vite/dist/node/chunks/node.js:34704:13)
+    at plugin.<computed> (file:///E:/Code/blog/node_modules/rolldown/dist/shared/bindingify-input-options-XrReX_BJ.mjs:2130:18)
+    at unwrapBindingResult (file:///E:/Code/blog/node_modules/rolldown/dist/shared/error-C7pxws0W.mjs:18:128)
+    at async buildEnvironment (file:///E:/Code/blog/node_modules/vite/dist/node/chunks/node.js:34445:66)
+    at async Object.buildApp (file:///E:/Code/blog/node_modules/astro/dist/core/build/static-build.js:153:31)
+    at async buildEnvironments (file:///E:/Code/blog/node_modules/astro/dist/core/build/static-build.js:196:3)
+    at async AstroBuilder.build (file:///E:/Code/blog/node_modules/astro/dist/core/build/index.js:156:5)[22m
