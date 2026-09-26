@@ -1,0 +1,28 @@
+{
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[astro]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[svelte]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"liveServer.settings.root": "/dist",
+	"frontMatter.dashboard.openOnStart": false,
+	"python.analysis.extraPaths": [
+		"C:\\Users\\aectn\\.kendryte\\k230_canmv_stubs\\95579ebe4e870ef4b36ddfcd62e304b22787c514"
+	],
+	"python.analysis.stubPath": "C:\\Users\\aectn\\.kendryte\\k230_canmv_pylance\\8ea70950319bd384\\typings"
+}
