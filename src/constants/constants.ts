@@ -2,7 +2,8 @@ export const PAGE_SIZE = 8;
 
 export const LIGHT_MODE = "light",
 	DARK_MODE = "dark";
-export const DEFAULT_THEME = LIGHT_MODE;
+export const AUTO_MODE = "auto"; // 跟随系统深浅色（本项目补丁新增，主题原版无此模式）
+export const DEFAULT_THEME = AUTO_MODE; // 原值 LIGHT_MODE（强制浅色）；改为默认跟随系统
 
 // Banner height unit: vh
 export const BANNER_HEIGHT = 35;

@@ -1,4 +1,4 @@
-import { DARK_MODE, DEFAULT_THEME, LIGHT_MODE } from "@constants/constants";
+import { AUTO_MODE, DARK_MODE, DEFAULT_THEME, LIGHT_MODE } from "@constants/constants";
 
 import { fullscreenWallpaperConfig, sakuraConfig, siteConfig } from "@/config";
 import type { LIGHT_DARK_MODE, WALLPAPER_MODE } from "@/types/config";
@@ -27,12 +27,25 @@ export function setHue(hue: number): void {
 	r.style.setProperty("--hue", String(hue));
 }
 
+/**
+ * 把 "auto"（跟随系统）解析成实际要应用的 light / dark
+ */
+export function resolveTheme(theme: LIGHT_DARK_MODE): LIGHT_DARK_MODE {
+	if (theme !== AUTO_MODE) return theme;
+	const mq =
+		typeof window !== "undefined" && window.matchMedia
+			? window.matchMedia("(prefers-color-scheme: dark)")
+			: null;
+	return mq && mq.matches ? DARK_MODE : LIGHT_MODE;
+}
+
 export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
+	const resolved = resolveTheme(theme); // auto → light/dark
 	const currentIsDark = document.documentElement.classList.contains("dark");
 	const currentTheme = document.documentElement.getAttribute("data-theme");
 
 	let targetIsDark = false;
-	switch (theme) {
+	switch (resolved) {
 		case LIGHT_MODE:
 			targetIsDark = false;
 			break;

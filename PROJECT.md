@@ -35,6 +35,7 @@
 5. `.gitignore`：已删除 `package-lock.json` 那一行（CF 构建机的 `npm ci` 必须有锁文件）
 6. `dev-patch.cjs`：新增文件，勿删
 7. `.env`：`ENABLE_CONTENT_SYNC=false`（主题自带，本地内容模式）
+8. **自适应深浅色（2026-09-30 新增，原主题不支持）**：新增 `AUTO_MODE="auto"` 并把 `DEFAULT_THEME` 改为它，涉及 5 个文件——`constants/constants.ts`、`types/config.ts`（LIGHT_DARK_MODE 类型加 auto）、`layouts/partials/HeadTags.astro`（首帧防闪烁脚本 + 系统偏好监听）、`utils/setting-utils.ts`（新增 `resolveTheme()`）、`components/control/ThemeSwitch.svelte`（按钮改三态：浅→深→跟随系统）。主题更新时这五处都要重新打补丁
 
 ## 四、当前状态（2026-09-26：正式上线日）
 

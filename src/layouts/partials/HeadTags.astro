@@ -9,6 +9,7 @@
 import { profileConfig, siteConfig } from "@/config";
 
 import {
+	AUTO_MODE,
 	DARK_MODE,
 	DEFAULT_THEME,
 	LIGHT_MODE,
@@ -107,6 +108,7 @@ const favicons: Favicon[] =
 		DEFAULT_THEME,
 		LIGHT_MODE,
 		DARK_MODE,
+		AUTO_MODE,
 		BANNER_HEIGHT_EXTEND: 30,
 		configHue,
 		themeColorFixed: siteConfig.themeColor.fixed ?? false,
@@ -129,6 +131,17 @@ const favicons: Favicon[] =
 			document.documentElement.classList.add("dark");
 			isDark = true;
 			break;
+		default:
+			// auto（跟随系统）或未知值：读取系统偏好
+			isDark =
+				window.matchMedia &&
+				window.matchMedia("(prefers-color-scheme: dark)").matches;
+			if (isDark) {
+				document.documentElement.classList.add("dark");
+			} else {
+				document.documentElement.classList.remove("dark");
+			}
+			break;
 	}
 
 	// Set the theme for Expressive Code based on current mode
@@ -138,6 +151,31 @@ const favicons: Favicon[] =
 	if (currentTheme !== expressiveTheme) {
 		document.documentElement.setAttribute("data-theme", expressiveTheme);
 	}
+
+	// 系统深浅色变化时同步：仅在“跟随系统(auto)”模式下生效，访客手动选择优先
+	(function () {
+		if (!window.matchMedia) return;
+		var mq = window.matchMedia("(prefers-color-scheme: dark)");
+		var onSystemChange = function (e) {
+			var cur = localStorage.getItem("theme") || DEFAULT_THEME;
+			if (cur !== AUTO_MODE) return; // 访客已手动指定深浅，不覆盖
+			var nextIsDark = e.matches;
+			if (nextIsDark) {
+				document.documentElement.classList.add("dark");
+			} else {
+				document.documentElement.classList.remove("dark");
+			}
+			document.documentElement.setAttribute(
+				"data-theme",
+				nextIsDark ? "github-dark" : "github-light",
+			);
+		};
+		if (mq.addEventListener) {
+			mq.addEventListener("change", onSystemChange);
+		} else if (mq.addListener) {
+			mq.addListener(onSystemChange); // 兼容旧版 Safari
+		}
+	})();
 
 	// Load the hue from local storage
 	const hue = themeColorFixed ? configHue : (localStorage.getItem("hue") || configHue);

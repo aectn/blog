@@ -1,12 +1,13 @@
 <script lang="ts">
-import { DARK_MODE, DEFAULT_THEME, LIGHT_MODE } from "@constants/constants";
+import { AUTO_MODE, DARK_MODE, DEFAULT_THEME, LIGHT_MODE } from "@constants/constants";
 import Icon from "@iconify/svelte";
 import { getStoredTheme, setTheme } from "@utils/setting-utils";
 import { onMount } from "svelte";
 
 import type { LIGHT_DARK_MODE } from "@/types/config.ts";
 
-const seq: LIGHT_DARK_MODE[] = [LIGHT_MODE, DARK_MODE];
+// 三态循环：浅色 → 深色 → 跟随系统（auto）
+const seq: LIGHT_DARK_MODE[] = [LIGHT_MODE, DARK_MODE, AUTO_MODE];
 let mode: LIGHT_DARK_MODE = $state(DEFAULT_THEME);
 let isChanging = false;
 
@@ -78,7 +79,8 @@ function toggleScheme() {
 </script>
 
 <button
-	aria-label="Light/Dark Mode"
+	aria-label="切换主题模式（浅色 / 深色 / 跟随系统）"
+	title="当前：跟随系统"
 	class="relative btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90 theme-switch-btn z-50"
 	id="scheme-switch"
 	onclick={toggleScheme}
@@ -101,6 +103,16 @@ function toggleScheme() {
 	>
 		<Icon
 			icon="material-symbols:dark-mode-outline-rounded"
+			class="text-[1.25rem]"
+		></Icon>
+	</div>
+	<div
+		class="absolute transition-all duration-300 ease-in-out"
+		class:opacity-0={mode !== AUTO_MODE}
+		class:rotate-180={mode !== AUTO_MODE}
+	>
+		<Icon
+			icon="material-symbols:computer-outline-rounded"
 			class="text-[1.25rem]"
 		></Icon>
 	</div>

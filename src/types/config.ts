@@ -1,4 +1,5 @@
 import type {
+	AUTO_MODE,
 	DARK_MODE,
 	LIGHT_MODE,
 	WALLPAPER_BANNER,
@@ -301,7 +302,10 @@ interface TwikooConfig {
 	lang?: string;
 }
 
-export type LIGHT_DARK_MODE = typeof LIGHT_MODE | typeof DARK_MODE;
+export type LIGHT_DARK_MODE =
+	| typeof LIGHT_MODE
+	| typeof DARK_MODE
+	| typeof AUTO_MODE; // auto = 跟随系统（本项目补丁新增）
 
 export type WALLPAPER_MODE =
 	| typeof WALLPAPER_BANNER
