@@ -57,6 +57,6 @@ export const LinkPresets: Record<LinkPreset, NavBarLink> = {
 	[LinkPreset.AITools]: {
 		name: i18n(I18nKey.aiTools),
 		url: "/ai-tools/",
-		icon: "material-symbols:smart-toy",
+		icon: "material-symbols:apps", // 原为 smart-toy（机器人），改用方块图标更贴合"收藏夹"
 	},
 };
