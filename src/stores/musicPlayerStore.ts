@@ -605,6 +605,15 @@ class MusicPlayerStore {
 		this.broadcastState();
 	}
 
+	/** 点击控制中心面板与悬浮按钮以外的区域时收起面板（外部点击关闭） */
+	closeExpanded(): void {
+		if (!this.state.isExpanded) {
+			return;
+		}
+		this.state.isExpanded = false;
+		this.broadcastState();
+	}
+
 	toggleHidden(): void {
 		this.state.isHidden = !this.state.isHidden;
 		// 保持与原先 usePlayerState.toggleHiddenUI 一致的联动行为：

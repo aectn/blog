@@ -1,7 +1,7 @@
 <script lang="ts">
 import { AUTO_MODE, DARK_MODE, DEFAULT_THEME, LIGHT_MODE } from "@constants/constants";
 import Icon from "@iconify/svelte";
-import { getStoredTheme, setTheme } from "@utils/setting-utils";
+import { getStoredTheme, resolveTheme, setTheme } from "@utils/setting-utils";
 import { onMount } from "svelte";
 
 import type { LIGHT_DARK_MODE } from "@/types/config.ts";
@@ -16,6 +16,18 @@ onMount(() => {
 
 	// 监听 Swup 的内容替换事件，确保在页面切换后同步主题状态
 	const handleContentReplace = () => {
+		// Swup 切换页面时会套用服务端渲染的 html 属性（其中不含 dark class），
+		// 导致切到新页面瞬间退回浅色。这里同步恢复主题：
+		// resolveTheme 会把 "auto" 解析成系统当前实际的 light/dark，
+		// 直接改 class 而不走过渡动画，避免出现浅色闪烁。
+		const resolved = resolveTheme(getStoredTheme());
+		const shouldBeDark = resolved === DARK_MODE;
+		document.documentElement.classList.toggle("dark", shouldBeDark);
+		document.documentElement.setAttribute(
+			"data-theme",
+			shouldBeDark ? "github-dark" : "github-light",
+		);
+
 		requestAnimationFrame(() => {
 			const newMode = getStoredTheme();
 			if (mode !== newMode) {

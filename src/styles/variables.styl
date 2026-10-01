@@ -49,6 +49,11 @@ define({
 
   --deep-text: oklch(0.25 0.02 var(--hue))
 
+  // 主题原本漏定义了这两个变量，导致使用 var(--text-color) 的元素
+  // 在深色模式下回落成默认黑色（如侧栏标题、标签芯片、链接等）
+  --text-color: oklch(0.25 0.02 var(--hue)) oklch(0.92 0.012 var(--hue))
+  --text-color-secondary: oklch(0.5 0.02 var(--hue)) white(0.7)
+
   --title-active: oklch(0.6 0.1 var(--hue))
 
   --line-divider: black(0.08) white(0.08)

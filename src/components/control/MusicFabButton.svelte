@@ -30,10 +30,29 @@ onMount(() => {
 	unsubscribe = musicPlayerStore.subscribe((nextState) => {
 		playerState = nextState;
 	});
-});
 
-onDestroy(() => {
-	unsubscribe?.();
+	// 点击控制中心面板与 FAB 按钮以外的区域时，自动收起展开的面板
+	const handleDocumentClick = (event: MouseEvent) => {
+		const target = event.target as HTMLElement | null;
+		if (!target) {
+			return;
+		}
+		if (target.closest(".music-player-fab-anchor")) {
+			return; // 点在控制中心面板内
+		}
+		if (target.closest(".music-fab")) {
+			return; // 点在 FAB 按钮上（交给按钮自身的切换逻辑）
+		}
+		if (musicPlayerStore.getState().isExpanded) {
+			musicPlayerStore.closeExpanded();
+		}
+	};
+	document.addEventListener("click", handleDocumentClick);
+
+	onDestroy(() => {
+		unsubscribe?.();
+		document.removeEventListener("click", handleDocumentClick);
+	});
 });
 </script>
 

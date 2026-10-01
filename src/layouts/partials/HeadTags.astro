@@ -152,6 +152,27 @@ const favicons: Favicon[] =
 		document.documentElement.setAttribute("data-theme", expressiveTheme);
 	}
 
+	// 兜底：Swup 切换页面时会套用服务端渲染的 html 属性（其中不含 dark class），
+	// 导致切页瞬间退回浅色。这里监听 dark 被意外移除的情况并立即恢复，
+	// 不依赖 Swup 的任何 hook，保证任何切页方式都不会闪浅色。
+	(function () {
+		if (!window.MutationObserver) return;
+		var html = document.documentElement;
+		var observer = new MutationObserver(function () {
+			var cur = localStorage.getItem("theme") || DEFAULT_THEME;
+			var shouldBeDark =
+				cur === DARK_MODE ||
+				(cur !== LIGHT_MODE &&
+					window.matchMedia &&
+					window.matchMedia("(prefers-color-scheme: dark)").matches);
+			if (shouldBeDark && !html.classList.contains("dark")) {
+				html.classList.add("dark");
+				html.setAttribute("data-theme", "github-dark");
+			}
+		});
+		observer.observe(html, { attributes: true, attributeFilter: ["class"] });
+	})();
+
 	// 系统深浅色变化时同步：仅在“跟随系统(auto)”模式下生效，访客手动选择优先
 	(function () {
 		if (!window.matchMedia) return;
