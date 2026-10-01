@@ -37,9 +37,9 @@ export const siteConfig: SiteConfig = {
     // 顶栏标题文本
     text: "aectn的博客",
     // 顶栏标题图标路径（相对 public/ 目录），已换成个人头像
-    icon: "assets/home/avatar.webp",
+    icon: "assets/home/avatar.jpg",
     // 网站Logo图片路径（仅在 mode 为 "logo" 时生效），同样换成头像
-    logo: "assets/home/avatar.webp",
+    logo: "assets/home/avatar.jpg",
   },
 
   // 旧版页面自动缩放配置。默认关闭，页面尺寸优先交由响应式布局处理。
