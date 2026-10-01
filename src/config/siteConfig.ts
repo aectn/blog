@@ -32,14 +32,14 @@ export const siteConfig: SiteConfig = {
 
   // 顶栏标题配置
   navbarTitle: {
-    // 显示模式："text-icon" 显示图标+文本，"logo" 仅显示Logo
+    // 显示模式："text-icon" 显示图标+文本，"logo" 仅显示Logo（此时顶栏只留一张图、不显示标题文字）
     mode: "text-icon",
     // 顶栏标题文本
     text: "aectn的博客",
-    // 顶栏标题图标路径，默认使用 public/assets/home/home.webp
-    icon: "assets/home/home.webp",
-    // 网站Logo图片路径
-    logo: "assets/home/default-logo.webp",
+    // 顶栏标题图标路径（相对 public/ 目录），已换成个人头像
+    icon: "assets/home/avatar.webp",
+    // 网站Logo图片路径（仅在 mode 为 "logo" 时生效），同样换成头像
+    logo: "assets/home/avatar.webp",
   },
 
   // 旧版页面自动缩放配置。默认关闭，页面尺寸优先交由响应式布局处理。
