@@ -131,7 +131,9 @@ export const siteConfig: SiteConfig = withUserConfig("site", {
 	},
 	favicon: [
 		// 浏览器标签页图标，路径相对于 public 目录。
-		{ src: "/favicon/favicon.ico" },
+		{ src: "/favicon/favicon.ico", sizes: "any" },
+		// 高分辨率场景（高分屏标签页 / 添加到主屏幕）使用头像 PNG。
+		{ src: "/favicon/favicon-192.png", sizes: "192x192" },
 	],
 });
 
