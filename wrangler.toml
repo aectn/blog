@@ -1,0 +1,28 @@
+# =============================================================
+# aectn 的博客（Shirone 主题）— Cloudflare Worker 静态资源托管配置
+# =============================================================
+# name 必须与已存在的 Worker "blog" 一致（小写字母/数字/连字符）。
+name = "blog"
+compatibility_date = "2026-09-01"
+
+# Version URLs：每次部署生成独立的版本测试链接。
+# ⚠️ 顶级字段必须写在所有 [块] 之前（TOML 语法要求）。
+preview_urls = true
+
+# 静态资产目录 = Astro 构建产物
+[assets]
+directory = "./dist"
+
+# 找不到文件时返回 dist/404.html
+not_found_handling = "404-page"
+
+# 预览部署块（PR 场景需要，内容留空）
+[previews]
+
+# Workers 日志（免费 20 万条/天；纯静态站几乎不产生日志）
+[observability]
+enabled = true
+
+# 🚫 红线一：不写 main = "..." —— 保持纯 assets Worker，
+#    请求命中文件不执行代码、不耗每天 10 万请求配额。
+# 🚫 红线二：不加 run_worker_first —— 加了等于白交配额。
