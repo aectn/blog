@@ -3,7 +3,6 @@
 // asset fingerprints (/_astro/<name>.js|.css) referenced by the homepage.
 // Usage: node scripts/check-online.mjs   (or: npm run check:online)
 
-import { execFileSync } from "node:child_process";
 import { readFileSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -28,12 +27,15 @@ if (!existsSync(localFile)) {
 const local = assetsOf(readFileSync(localFile, "utf8"));
 
 // 2) live homepage, forced revalidate so CF edge cache cannot hide the truth
-const raw = execFileSync(
-  "curl",
-  ["-s", "--max-time", "30", "-H", "Cache-Control: no-cache", "-H", "Pragma: no-cache", SITE + "/"],
-  { maxBuffer: 1024 * 1024 * 32 }
-);
-const online = assetsOf(raw.toString("utf8"));
+// 用 Node 原生 fetch 而不是 spawn curl：Windows 上 spawnSync curl 会随机报 EBUSY。
+const res = await fetch(SITE + "/", {
+  headers: { "Cache-Control": "no-cache", Pragma: "no-cache" },
+});
+if (!res.ok) {
+  console.log(`[FAIL] ${SITE} 返回 HTTP ${res.status}`);
+  process.exit(1);
+}
+const online = assetsOf(await res.text());
 
 // 3) compare
 const missing = [...local].filter((a) => !online.has(a)); // in dist but not live

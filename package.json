@@ -6,7 +6,7 @@
   "packageManager": "pnpm@12.6.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/run-pagefind.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "deploy": "npx wrangler deploy",
