@@ -127,6 +127,24 @@ await test("reject wrong password", async () => {
 	assert(threw, "wrong password should throw");
 });
 
+// ★ 回归测试（2026-10-03 踩坑）：前端解锁必须传「密码原文」当密钥材料。
+//   曾误把 PBKDF2 派生的会话令牌传给 attemptUnlock()，结果 AES-GCM 认证必失败，
+//   密码输入正确也一直提示「密码错误」—— 所以这里把两条路径都钉死。
+await test("unlock must use password原文; derived token must fail", async () => {
+	const enc = encryptContent(testHtml, testPassword, testSlug);
+	assert(
+		(await clientDecrypt(enc, testPassword)) === testHtml,
+		"密码原文必须能解密（构建端用的就是它）",
+	);
+	let threw = false;
+	try {
+		await clientDecrypt(enc, "aectn-session-v1-derived-token");
+	} catch {
+		threw = true;
+	}
+	assert(threw, "派生令牌必须解不开 —— 否则前端会误报密码错误");
+});
+
 await test("different slugs produce different ciphertext", () => {
 	const a = encryptContent(testHtml, testPassword, "slug-a");
 	const b = encryptContent(testHtml, testPassword, "slug-b");
