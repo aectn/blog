@@ -1,0 +1,23 @@
+---
+/**
+ * 工具箱页：独立板块，快速访问自己的工具集合。
+ * 复用主题罗盘的分组瓷砖组件 CompassSection（搜索过滤 / 分组筛选 / stagger 入场
+ * 全部现成），数据来自 shirones/config/data/tools.ts，构建期注入，零运行时请求。
+ * 导航入口见 shirones/config/navBarConfig.ts 的 Tools 项。
+ */
+import CompassSection from "shirones/src/components/organisms/CompassSection.svelte";
+import MainGridLayout from "shirones/src/layouts/MainGridLayout.astro";
+import { toolsData } from "../../shirones/config/data/tools";
+
+const pageTitle = "工具箱";
+const pageDescription = "常用工具快速入口";
+---
+
+<MainGridLayout title={pageTitle} description={pageDescription} page="tools">
+    <CompassSection
+        shelves={toolsData}
+        title={pageTitle}
+        subtitle={pageDescription}
+        client:visible
+    ></CompassSection>
+</MainGridLayout>
