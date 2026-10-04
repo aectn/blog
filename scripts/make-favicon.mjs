@@ -19,10 +19,28 @@ mkdirSync(outDir, { recursive: true });
 const ICO_SIZES = [16, 24, 32, 48, 64, 128];
 const PNG_SIZES = [32, 128, 180, 192, 256];
 
-/** 把头像裁成正方形并输出 PNG buffer（小尺寸启用调色板以压缩体积） */
+// 圆角半径 = 边长 × 该比例。站内卡片用的是 Material 3 大圆角，
+// 图标取 22% 左右在标签页小尺寸下仍能看出圆角，又不至于把画面切掉太多。
+const RADIUS_RATIO = 0.22;
+
+/** 圆角矩形遮罩（白色实心，用于 dest-in 混合切出圆角 + 透明四角） */
+function roundedMask(size) {
+	const r = Math.round(size * RADIUS_RATIO);
+	return Buffer.from(
+		`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">` +
+			`<rect x="0" y="0" width="${size}" height="${size}" rx="${r}" ry="${r}" fill="#fff"/>` +
+			`</svg>`,
+	);
+}
+
+/** 把头像裁成正方形、切圆角后输出 PNG buffer（小尺寸启用调色板以压缩体积） */
 async function render(size) {
-	return sharp(src)
+	const rounded = await sharp(src)
 		.resize(size, size, { fit: "cover", position: "centre" })
+		.ensureAlpha()
+		.composite([{ input: roundedMask(size), blend: "dest-in" }])
+		.toBuffer();
+	return sharp(rounded)
 		.png({ compressionLevel: 9, palette: size <= 64, quality: 90 })
 		.toBuffer();
 }
