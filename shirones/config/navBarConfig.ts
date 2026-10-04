@@ -68,6 +68,12 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		icon: "material-symbols:explore-rounded",
 		pageKey: "compass",
 	},
+	Tools: {
+		name: "工具箱",
+		url: "/tools/",
+		icon: "material-symbols:home-repair-service-rounded",
+		pageKey: "tools",
+	},
 	Skills: {
 		name: i18n(I18nKey.skills),
 		url: "/skills/",
@@ -146,6 +152,7 @@ const defaultNavBarConfig: NavBarConfig = {
 		LinkPresets.Anime,
 		LinkPresets.Compass,
 		LinkPresets.Albums,
+		LinkPresets.Tools,
 		{
 			name: i18n(I18nKey.more),
 			icon: "material-symbols:apps-rounded",
