@@ -3,6 +3,6 @@ import { withUserConfig } from "@/utils/config-overlay.ts";
 
 export const compassConfig: CompassConfig = withUserConfig("compass", {
 	enable: true,
-	title: "$t:compass",
-	description: "$t:compassBanner",
+	title: "网站收藏",
+	description: "收藏的站点与好东西",
 });
