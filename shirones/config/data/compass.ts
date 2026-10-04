@@ -36,4 +36,43 @@ export interface CompassShelf {
 }
 
 export const compassData: CompassShelf[] = [
+	{
+		key: "daily",
+		name: "日常常逛",
+		icon: "material-symbols:public-rounded",
+		entries: [
+			{
+				label: "哔哩哔哩",
+				href: "https://www.bilibili.com",
+				note: "视频与教程",
+				icon: "ri:bilibili-line",
+			},
+			{
+				label: "GitHub",
+				href: "https://github.com",
+				note: "开源项目",
+				icon: "fa6-brands:github",
+			},
+		],
+	},
+	{
+		key: "learn",
+		name: "学习文档",
+		icon: "material-symbols:school-outline-rounded",
+		entries: [
+			{
+				label: "MDN",
+				href: "https://developer.mozilla.org/zh-CN/",
+				note: "Web 开发文档",
+				icon: "material-symbols:menu-book-outline-rounded",
+			},
+			{
+				label: "Astro 文档",
+				href: "https://docs.astro.build/zh-cn/getting-started/",
+				note: "博客框架官方文档",
+				icon: "material-symbols:rocket-launch-outline-rounded",
+			},
+		],
+	},
+	// 加分组：复制一个 { key, name, entries } 块改内容即可；数组顺序即页面展示顺序。
 ];
